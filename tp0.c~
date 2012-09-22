@@ -1,0 +1,55 @@
+#include "tp0.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+
+
+int main(int argc, char* argv[]){
+
+    FILE *ENTRADA;
+    ENTRADA = fopen(argv[1],"r");
+
+    FILE *SAIDA;
+    SAIDA = fopen(argv[2],"w");
+
+    int **matriz_a = NULL, **matriz_b = NULL, **matriz_result;
+    int lin_a, col_a, lin_b, col_b, lin_result, col_result;
+    int par_matriz;
+
+
+    fscanf(ENTRADA,"%d",&par_matriz);
+    fprintf(SAIDA, "%d\n", par_matriz);
+
+    while(par_matriz-->0){
+
+        fscanf(ENTRADA,"%d",&lin_a);
+        fscanf(ENTRADA,"%d",&col_a);
+        matriz_a = ler_matriz(lin_a, col_a, ENTRADA);
+
+        fscanf(ENTRADA,"%d",&lin_b);
+        fscanf(ENTRADA,"%d",&col_b);
+        matriz_b = ler_matriz(lin_b, col_b, ENTRADA);
+
+        lin_result = (lin_a*lin_b);
+        col_result = (col_a*col_b);
+        matriz_result = aloca_matriz(lin_result, col_result);
+
+
+
+        prod_kron(matriz_a, lin_a, col_a, matriz_b, lin_b, col_b, matriz_result);
+
+        libera_memoria(matriz_a, lin_a);
+        libera_memoria(matriz_b, lin_b);
+
+        escreve_matriz(matriz_result, lin_result, col_result, SAIDA);
+
+        libera_memoria(matriz_result, lin_result);
+    }
+
+    fclose(ENTRADA);
+    fclose(SAIDA);
+
+return 0;
+}
+
+
